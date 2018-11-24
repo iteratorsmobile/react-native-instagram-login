@@ -98,6 +98,20 @@ export default class Instagram extends Component {
         onRequestClose={this.hide.bind(this)}
         transparent
       >
+        {Platform.OS === 'android' &&
+           <WebView
+            {...this.props}
+            style={[styles.webView, this.props.styles.webView]}
+            source={{ uri: `https://api.instagram.com/oauth/authorize/?client_id=${clientId}&redirect_uri=${redirectUrl}&response_type=${responseType}&scope=${scopes.join('+')}` }}
+            scalesPageToFit
+            startInLoadingState
+            onNavigationStateChange={this._onNavigationStateChange.bind(this)}
+            onError={this._onNavigationStateChange.bind(this)}
+            // onLoadEnd={this._onLoadEnd.bind(this)}
+            onMessage={this._onMessage.bind(this)}
+            ref={(webView) => { this.webView = webView }}
+            injectedJavaScript={patchPostMessageJsCode}
+          /> ||
         <TouchableOpacity
           style={[styles.modalWarp, this.props.styles.modalWarp]}
           activeOpacity={1}
@@ -146,7 +160,7 @@ export default class Instagram extends Component {
               ) : null}
             </TouchableOpacity>
           </KeyboardAvoidingView>
-        </TouchableOpacity>
+        </TouchableOpacity>}
       </Modal>
     );
   }
