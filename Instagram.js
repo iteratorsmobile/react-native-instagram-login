@@ -9,7 +9,8 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Platform
 } from "react-native";
 import qs from "qs";
 
